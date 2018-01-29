@@ -9,7 +9,10 @@ app.get('/all.do', (req, res) => {
 });
 
 app.get('/scan/:from', (req, res) => {
-    const from = req.params.from;
+    let from = req.params.from;
+    // from = encodeURI(from);
+    console.log(from);
+
     dbApi.getFrom(from).then(json=>{
         res.json(json)
     });
