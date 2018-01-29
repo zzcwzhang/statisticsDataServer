@@ -8,6 +8,13 @@ app.get('/all.do', (req, res) => {
     });
 });
 
+app.get('/scan/:from', (req, res) => {
+    const from = req.params.from;
+    dbApi.getFrom(from).then(json=>{
+        res.json(json)
+    });
+});
+
 const server = app.listen(3000, function () {
     const host = server.address().address;
     const port = server.address().port;
