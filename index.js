@@ -92,15 +92,20 @@ app.get('/theme/filter/:name/:keyword', (req, res) => {
     })
 });
 
-// 删除关键字或过滤字
-app.del('/word/:themename/:word', (req, res) => {
+//删除关键字
+app.del('/keyword/:themename/:word', (req, res) => {
     let theme = req.params.themename;
     let word = req.params.word;
-    dbApi.removeFilterword(theme, word);
-    dbApi.removeKeyword(theme, word);
-    res.json({
-        info: 'finish'
-    })
+    dbApi.removeKeyword(theme, word).then( json => { res.json({ success: true }); })
+        .catch( err => { res.json({ success: false, info:err }); });
+});
+
+//删除过滤字
+app.del('/filterword/:themename/:word', (req, res) => {
+    let theme = req.params.themename;
+    let word = req.params.word;
+    dbApi.removeFilterword(theme, word).then( json => { res.json({ success: true }); })
+        .catch( err => { res.json({ success: false, info:err }); });
 });
 
 
