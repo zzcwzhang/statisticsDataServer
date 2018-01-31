@@ -1,7 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const dbApi = require('./model/mongodata');
 const app = express();
 
+app.use(cors());
+//设置跨域访问
 app.get('/all.do', (req, res) => {
     dbApi.getAll.then( (json) => {
         res.json(json)
@@ -13,6 +16,12 @@ app.get('/scan/:from', (req, res) => {
     dbApi.getFrom(from).then(json=>{
         res.json(json)
     });
+});
+
+app.get('/theme/all.do', (req, res) => {
+    dbApi.getThemes().then( json => {
+        res.json(json);
+    })
 });
 
 app.get('/theme/add/:name', (req, res) => {

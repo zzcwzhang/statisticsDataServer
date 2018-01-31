@@ -31,6 +31,24 @@ const getFrom = from => new Promise( (resolve, reject) => {
     });
 });
 
+const getThemes = () => new Promise( (resolve, reject) => {
+    console.log('getThemes');
+    MongoClient.connect(url, (err, client) => {
+        if (err) throw err;
+        const col = client.db(dbName).collection('theme');
+        col.find().toArray( (err, items) => {
+            if (err) reject(err);
+            client.close();
+            console.log(items);
+            resolve(items);
+        })
+    })
+});
+
+// getThemes.then( res=>{
+//     console.log(res)
+// });
+
 //添加主题
 const addTheme = theme => new Promise( (resolve, reject) => {
     MongoClient.connect(url, (err, client) => {
@@ -138,6 +156,7 @@ module.exports = {
     getAll,
     getFrom,
     addTheme,
+    getThemes,
     addKeyWord,
     addFilterWord,
     getFilterByTheme,
