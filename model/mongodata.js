@@ -32,14 +32,12 @@ const getFrom = from => new Promise( (resolve, reject) => {
 });
 
 const getThemes = () => new Promise( (resolve, reject) => {
-    console.log('getThemes');
     MongoClient.connect(url, (err, client) => {
         if (err) throw err;
         const col = client.db(dbName).collection('theme');
         col.find().toArray( (err, items) => {
             if (err) reject(err);
             client.close();
-            console.log(items);
             resolve(items);
         })
     })
@@ -56,13 +54,29 @@ const addTheme = theme => new Promise( (resolve, reject) => {
         const col = client.db(dbName).collection('theme');
         col.insert({'name': theme},(err, result) => {
             if (err) reject(err);
-            resolve('insert success', result);
             client.close();
+            resolve('insert success', result);
         });
     });
 });
 
-// addTheme('主题测试');
+// addTheme('tttt');
+
+// 删除主题
+const removeTheme = theme => new Promise((resolve, reject) => {
+    MongoClient.connect(url, (err, client) => {
+        if (err) throw err;
+        const col = client.db(dbName).collection('theme');
+        col.removeOne({'name': theme},(err, result) => {
+            if (err) reject(err);
+            client.close();
+            resolve('delete success', result);
+        })
+    })
+});
+
+// removeTheme('tttt');
+
 
 //给主题添加关键字
 const addKeyWord = (theme, keyword) => new Promise( (resolve, reject) => {
@@ -89,6 +103,40 @@ const addFilterWord = (theme, filterword) => new Promise( (resolve, reject) => {
         });
     });
 });
+
+// 删除关键字 即使没有也不会报错
+const removeKeyword = (theme, word) => new Promise( (resolve, reject) => {
+    MongoClient.connect(url, (err, client) => {
+        if (err) throw err;
+        const col = client.db(dbName).collection('theme');
+        col.updateOne({'name': theme},{'$pull':{'keywords':word}},(err, result) => {
+            client.close();
+            if (err) reject(err);
+            resolve('delete key success', String(result));
+        })
+    });
+});
+
+// removeKeyword('数据分析','指数').then(res=>{
+//     console.log(res);
+// });
+
+// 删除过滤字 即使没有也不会报错
+const removeFilterword = (theme, word) => new Promise( (resolve, reject) => {
+    MongoClient.connect(url, (err, client) => {
+        if (err) throw err;
+        const col = client.db(dbName).collection('theme');
+        col.updateOne({'name': theme},{'$pull':{'filterwords':word}},(err, result) => {
+            client.close();
+            if (err) reject(err);
+            resolve('delete filter success', String(result));
+        })
+    });
+});
+
+// removeFilterword('货币','股').then(res=>{
+//     console.log(res);
+// });
 
 //根据主题查询过滤字段
 const getFilterByTheme = theme => new Promise((resolve, reject) => {
@@ -157,8 +205,11 @@ module.exports = {
     getFrom,
     addTheme,
     getThemes,
+    removeTheme,
     addKeyWord,
+    removeKeyword,
     addFilterWord,
+    removeFilterword,
     getFilterByTheme,
     getBytheme
 };

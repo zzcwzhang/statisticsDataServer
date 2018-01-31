@@ -3,14 +3,17 @@ const cors = require('cors');
 const dbApi = require('./model/mongodata');
 const app = express();
 
-app.use(cors());
 //设置跨域访问
+app.use(cors());
+
+// 获取所有数据
 app.get('/all.do', (req, res) => {
     dbApi.getAll.then( (json) => {
         res.json(json)
     });
 });
 
+// 根据来源获取数据
 app.get('/scan/:from', (req, res) => {
     let from = req.params.from;
     dbApi.getFrom(from).then(json=>{
@@ -18,12 +21,14 @@ app.get('/scan/:from', (req, res) => {
     });
 });
 
+// 获取所有主题
 app.get('/theme/all.do', (req, res) => {
     dbApi.getThemes().then( json => {
         res.json(json);
     })
 });
 
+// 添加主题
 app.get('/theme/add/:name', (req, res) => {
     let name = req.params.name;
     dbApi.addTheme(name).then( json => {
@@ -38,7 +43,23 @@ app.get('/theme/add/:name', (req, res) => {
     })
 });
 
-app.get('/theme/add/:name/:keyword', (req, res) => {
+// 删除主题
+app.del('/theme/:name', (req, res) => {
+    let name = req.params.name;
+    dbApi.removeTheme(name).then( json => {
+        res.json({
+            success: true
+        });
+    }).catch( err => {
+        res.json({
+            success: false,
+            info: err
+        });
+    })
+});
+
+// 添加关键字
+app.get('/theme/key/:name/:keyword', (req, res) => {
     let name = req.params.name;
     let keyword = req.params.keyword;
     dbApi.addKeyWord(name, keyword).then( json => {
@@ -53,6 +74,8 @@ app.get('/theme/add/:name/:keyword', (req, res) => {
         });
     })
 });
+
+// 添加过滤字
 app.get('/theme/filter/:name/:keyword', (req, res) => {
     let name = req.params.name;
     let keyword = req.params.keyword;
@@ -69,6 +92,19 @@ app.get('/theme/filter/:name/:keyword', (req, res) => {
     })
 });
 
+// 删除关键字或过滤字
+app.del('/word/:themename/:word', (req, res) => {
+    let theme = req.params.themename;
+    let word = req.params.word;
+    dbApi.removeFilterword(theme, word);
+    dbApi.removeKeyword(theme, word);
+    res.json({
+        info: 'finish'
+    })
+});
+
+
+// 根据主题查询数据
 app.get('/theme/scan/:name', (req, res) => {
     let name = req.params.name;
     dbApi.getBytheme(name).then(json=>{
