@@ -53,8 +53,8 @@ const addTheme = theme => new Promise( (resolve, reject) => {
         if (err) throw err;
         const col = client.db(dbName).collection('theme');
         col.insert({'name': theme},(err, result) => {
-            if (err) reject(err);
             client.close();
+            if (err) reject(err);
             resolve('insert success', result);
         });
     });
@@ -68,8 +68,8 @@ const removeTheme = theme => new Promise((resolve, reject) => {
         if (err) throw err;
         const col = client.db(dbName).collection('theme');
         col.removeOne({'name': theme},(err, result) => {
-            if (err) reject(err);
             client.close();
+            if (err) reject(err);
             resolve('delete success', result);
         })
     })
@@ -84,9 +84,9 @@ const addKeyWord = (theme, keyword) => new Promise( (resolve, reject) => {
         if (err) throw err;
         const col = client.db(dbName).collection('theme');
         col.updateOne({'name': theme},{'$addToSet':{'keywords':keyword}},[true,true],(err, result) => {
+            client.close();
             if (err) reject(err);
             resolve('insert key success', String(result));
-            client.close();
         });
     });
 });
@@ -97,9 +97,9 @@ const addFilterWord = (theme, filterword) => new Promise( (resolve, reject) => {
         if (err) throw err;
         const col = client.db(dbName).collection('theme');
         col.updateOne({'name': theme},{'$addToSet':{'filterwords':filterword}},[true,true],(err, result) => {
+            client.close();
             if (err) reject(err);
             resolve('insert filter success', String(result));
-            client.close();
         });
     });
 });
