@@ -14,6 +14,7 @@ function getClientIp(req) {
 
 //添加主题
 const addClient = (req) => new Promise( (resolve, reject) => {
+    return;
     const IP = getClientIp(req);
     const timestamp = Date.parse(new Date());
     const now = moment().format('YYYY年MM月DD日 hh:mm');
