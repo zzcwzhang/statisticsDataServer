@@ -1,20 +1,20 @@
 const express = require('express');
 const cors = require('cors');
 const dbApi = require('./model/mongodata');
-const logApi = require('./model/clientInfo');
+// const logApi = require('./model/clientInfo');
 const app = express();
 
 //设置跨域访问
 app.use(cors());
 
 app.get('/test.do', (req,res) => {
-    logApi.addClient(req);
+    // logApi.addClient(req);
     res.send('ok');
 });
 
 // 获取所有数据
 app.get('/all.do', (req, res) => {
-    logApi.addClient(req);
+    // logApi.addClient(req);
     dbApi.getAll.then( (json) => {
         res.json(json)
     });
@@ -22,7 +22,7 @@ app.get('/all.do', (req, res) => {
 
 // 根据来源获取数据
 app.get('/scan/:from', (req, res) => {
-    logApi.addClient(req);
+    // logApi.addClient(req);
     let from = req.params.from;
     dbApi.getFrom(from).then(json=>{
         res.json(json)
@@ -31,7 +31,7 @@ app.get('/scan/:from', (req, res) => {
 
 // 获取所有主题
 app.get('/theme/all.do', (req, res) => {
-    logApi.addClient(req);
+    // logApi.addClient(req);
     dbApi.getThemes().then( json => {
         res.json(json);
     })
@@ -39,7 +39,7 @@ app.get('/theme/all.do', (req, res) => {
 
 // 添加主题
 app.get('/theme/add/:name', (req, res) => {
-    logApi.addClient(req);
+    // logApi.addClient(req);
     let name = req.params.name;
     dbApi.addTheme(name).then( json => {
         res.json({
@@ -55,7 +55,7 @@ app.get('/theme/add/:name', (req, res) => {
 
 // 删除主题
 app.del('/theme/:name', (req, res) => {
-    logApi.addClient(req);
+    // logApi.addClient(req);
     let name = req.params.name;
     dbApi.removeTheme(name).then( json => {
         res.json({
@@ -71,7 +71,7 @@ app.del('/theme/:name', (req, res) => {
 
 // 添加关键字
 app.get('/theme/key/:name/:keyword', (req, res) => {
-    logApi.addClient(req);
+    // logApi.addClient(req);
     let name = req.params.name;
     let keyword = req.params.keyword;
     dbApi.addKeyWord(name, keyword).then( json => {
@@ -89,7 +89,7 @@ app.get('/theme/key/:name/:keyword', (req, res) => {
 
 // 添加过滤字
 app.get('/theme/filter/:name/:keyword', (req, res) => {
-    logApi.addClient(req);
+    // logApi.addClient(req);
     let name = req.params.name;
     let keyword = req.params.keyword;
     dbApi.addFilterWord(name, keyword).then( json => {
@@ -107,7 +107,7 @@ app.get('/theme/filter/:name/:keyword', (req, res) => {
 
 //删除关键字
 app.del('/keyword/:themename/:word', (req, res) => {
-    logApi.addClient(req);
+    // logApi.addClient(req);
     let theme = req.params.themename;
     let word = req.params.word;
     dbApi.removeKeyword(theme, word).then( json => { res.json({ success: true }); })
@@ -116,7 +116,7 @@ app.del('/keyword/:themename/:word', (req, res) => {
 
 //删除过滤字
 app.del('/filterword/:themename/:word', (req, res) => {
-    logApi.addClient(req);
+    // logApi.addClient(req);
     let theme = req.params.themename;
     let word = req.params.word;
     dbApi.removeFilterword(theme, word).then( json => { res.json({ success: true }); })
@@ -126,7 +126,7 @@ app.del('/filterword/:themename/:word', (req, res) => {
 
 // 根据主题查询数据
 app.get('/theme/scan/:name', (req, res) => {
-    logApi.addClient(req);
+    // logApi.addClient(req);
     let name = req.params.name;
     dbApi.getBytheme(name).then(json=>{
         dbApi.getFilterByTheme(name).then(

@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 
 const moment = require('moment');
 
-const url = "mongodb://47.92.26.118:27017";
+const url = "mongodb://60.205.185.67:27017";
 const dbName = 'clientInfo';
 
 function getClientIp(req) {

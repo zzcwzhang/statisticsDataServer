@@ -2,7 +2,7 @@
  * Created by zy on 2018/2/9.
  */
 const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://47.92.26.118:27017";
+const url = "mongodb://60.205.185.67:27017";
 const dbName = 'tieba';
 
 const insertDatas = datas => new Promise( (resolve, reject) => {

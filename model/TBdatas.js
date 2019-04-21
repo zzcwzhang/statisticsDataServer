@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 
 const mysqlConfig = {
-    host:'47.92.26.118',
-    user:'zy',
-    password:'123456',
-    database:'tieba'
+    host:'60.205.185.67',
+    /* user:'zy', */
+    /* password:'123456', */
+    /* database:'tieba' */
 };
 
 const getTyGp = new Promise( (resolve, reject) => {
